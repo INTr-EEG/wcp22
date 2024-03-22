@@ -1,1 +1,32 @@
-.github/workflows/deploy-moe.yml
+name: Deploy MOE Site
+
+on:
+  push:
+    branches:
+      - MOE
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: MOE # Check out the MOE branch
+
+    - name: Set up Node.js (if needed)
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14' # Adjust this as needed
+
+    - name: Build your site (if needed)
+      run: |
+        npm install
+        npm run build # Adjust this command based on your build process
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./build # The folder where your site's output is generated
+        publish_branch: gh-pages # Push to the gh-pages branch
+        destination_dir: moe # Deploy to a subdirectory named 'moe'
