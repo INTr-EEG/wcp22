@@ -1,4 +1,4 @@
-name: Deploy MOE Site
+name: Deploy MOE Content
 
 on:
   push:
@@ -8,25 +8,23 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    
     steps:
     - uses: actions/checkout@v2
       with:
-        ref: MOE # Check out the MOE branch
+        ref: MOE
+      
+    # Add build steps if you need to compile or build your project.
+    # For example, if you're using Node.js you would add:
+    # - name: Build the project
+    #   run: |
+    #     npm install
+    #     npm run build
 
-    - name: Set up Node.js (if needed)
-      uses: actions/setup-node@v1
-      with:
-        node-version: '14' # Adjust this as needed
-
-    - name: Build your site (if needed)
-      run: |
-        npm install
-        npm run build # Adjust this command based on your build process
-
-    - name: Deploy to GitHub Pages
+    - name: Deploy to gh-pages
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build # The folder where your site's output is generated
-        publish_branch: gh-pages # Push to the gh-pages branch
-        destination_dir: moe # Deploy to a subdirectory named 'moe'
+        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        publish_dir: ./public
+        publish_branch: gh-pages
+        destination_dir: MOE
