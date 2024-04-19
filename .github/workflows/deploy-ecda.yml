@@ -1,0 +1,30 @@
+name: Deploy ECDA Content
+
+on:
+  push:
+    branches:
+      - ecda
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: ecda
+      
+    # Add build steps if you need to compile or build your project.
+    # For example, if you're using Node.js you would add:
+    # - name: Build the project
+    #   run: |
+    #     npm install
+    #     npm run build
+
+    - name: Deploy to gh-pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: .
+        publish_branch: gh-pages
+        destination_dir: ECDA
